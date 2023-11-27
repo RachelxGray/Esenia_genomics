@@ -9,9 +9,12 @@ sbatch blastn.sh
 # Running blast  on diamond database 
 
 # Contaminated contig removal 
-
+# index genome 
 samtools faidx ../pilon3_bwaIllumina_onFlye.fasta 
+# invert text file containing list of contigs to be REMOVED (grabbed from btk table option)
 remove_ids=($(awk '{print $1}' ../pilon3_bwaIllumina_onFlye.fasta.fai | grep -v -f contig_remove.txt))
+# remove the contigs in list 
 samtools faidx ../pilon3_bwaIllumina_onFlye.fasta  "${remove_ids[@]}" > btk_filterd_final_Eisenia.fasta
+# check final genome has the expected number of contigs kept 
 grep -c ">" btk_filterd_final_Eisenia.fasta
 
