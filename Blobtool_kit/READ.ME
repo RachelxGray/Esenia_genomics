@@ -7,3 +7,11 @@ sbatch blastn.sh
 ```
 
 # Running blast  on diamond database 
+
+# Contaminated contig removal 
+
+samtools faidx ../pilon3_bwaIllumina_onFlye.fasta 
+remove_ids=($(awk '{print $1}' ../pilon3_bwaIllumina_onFlye.fasta.fai | grep -v -f contig_remove.txt))
+samtools faidx ../pilon3_bwaIllumina_onFlye.fasta  "${remove_ids[@]}" > btk_filterd_final_Eisenia.fasta
+grep -c ">" btk_filterd_final_Eisenia.fasta
+
